@@ -1,4 +1,5 @@
-﻿using System;
+﻿using main_cli.io.text;
+using System;
 
 namespace main_cli
 {
@@ -6,8 +7,13 @@ namespace main_cli
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            Console.ReadLine();
+            ITextOut output = new ConsoleOut();
+            output.writeLine("This is text");
+            output.writeLineErr("This is error text");
+            output.writeLine("This is dice text", TextStyle.InternalMechanics);
+            output.writeLine("This is data", TextStyle.Data);
+            output.writeLine("This is notes", TextStyle.Notes);
+            output.writeLine("This is debug info", TextStyle.DebugInfo);
         }
     }
 }
