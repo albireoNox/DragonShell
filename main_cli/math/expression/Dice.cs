@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text.RegularExpressions;
 
 namespace main_cli.math.expression
@@ -12,12 +14,23 @@ namespace main_cli.math.expression
 
         private Random random;
 
+        public Dice() { } // Test mocks need this
+
         public Dice(Random random)
         {
             this.random = random;
         }
 
-        public int roll(string rollToken)
+        public virtual bool isDiceToken(string token)
+        {
+            if (token == null)
+            {
+                return false;
+            }
+            return TOKEN_PATTERN.IsMatch(token);
+        }
+
+        public virtual int roll(string rollToken)
         {
             var match = TOKEN_PATTERN.Match(rollToken);
             if (!match.Success)
@@ -31,12 +44,12 @@ namespace main_cli.math.expression
             return roll(string.IsNullOrEmpty(diceCount) ? 1 : int.Parse(diceCount), int.Parse(diceSize));
         }
 
-        public int roll(int diceCount, int diceSize)
+        public virtual int roll(int diceCount, int diceSize)
         {
             int sum = 0;
             for (int i = 0; i < diceCount; i++)
             {
-                sum += random.Next(1, diceSize);
+                sum += random.Next(1, diceSize + 1);
             }
             return sum;
         }

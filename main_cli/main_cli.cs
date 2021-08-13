@@ -9,6 +9,7 @@ namespace main_cli
     {
         private static readonly string PROMPT = "> ";
         private readonly CmdExecutor cmdExecutor;
+        private readonly Singletons singletons;
 
         public ITextOut textOut { get; }
         public void exit()
@@ -19,7 +20,8 @@ namespace main_cli
         CliApp()
         {
             this.textOut = new ConsoleOut();
-            this.cmdExecutor = new CmdExecutor(CmdMapper.createWithMappings());
+            this.singletons = new Singletons(new Random(), this);
+            this.cmdExecutor = new CmdExecutor(CmdMapper.createWithMappings(this.singletons));
         }
 
         void main()

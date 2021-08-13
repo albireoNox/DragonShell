@@ -50,7 +50,7 @@ namespace main_cli.cmd
                 return;
             }
 
-            cmd.executeCmd(ctx, cmdArgs);
+            cmd.executeCmd(cmdArgs);
         }
     }
 }

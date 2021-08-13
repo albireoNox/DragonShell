@@ -1,8 +1,9 @@
-﻿using Moq;
+﻿using main_cli.app;
+using main_cli.cmd;
+using Moq;
 using NUnit.Framework;
-using main_cli.app;
 
-namespace main_cli.cmd
+namespace test_main_cli.cmd
 {
     public class CmdExecutorTest
     {
@@ -59,7 +60,7 @@ namespace main_cli.cmd
         {
             executor.executeRawCmdLine(input, NullAppContext.I);
             mapper.Verify(m => m.getCmd(CMD_NAME));
-            testCmd.Verify(c => c.executeCmd(CTX, ""));
+            testCmd.Verify(c => c.executeCmd(""));
         }
         
         [TestCase("test a", "a")]
@@ -70,7 +71,7 @@ namespace main_cli.cmd
         {
             executor.executeRawCmdLine(input, NullAppContext.I);
             mapper.Verify(m => m.getCmd(CMD_NAME));
-            testCmd.Verify(c => c.executeCmd(CTX, expectedArgs));
+            testCmd.Verify(c => c.executeCmd(expectedArgs));
         }
     }
 }

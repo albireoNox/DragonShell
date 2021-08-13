@@ -1,8 +1,9 @@
+using System;
+using main_cli.math.expression;
 using Moq;
 using NUnit.Framework;
-using System;
 
-namespace main_cli.math.expression
+namespace test_main_cli.math.expression
 {
     public class DiceTest
     {
@@ -14,6 +15,24 @@ namespace main_cli.math.expression
         {
             random = new Mock<Random>();
             dice = new Dice(random.Object);
+        }
+
+        [TestCase("2d6")]
+        [TestCase("d20")]
+        [TestCase("3d4")]
+        public void IsDiceToken(string token)
+        {
+            Assert.That(dice.isDiceToken(token), Is.True);
+        }
+
+        [TestCase("10")]
+        [TestCase("2a20")]
+        [TestCase("abc")]
+        [TestCase("")]
+        [TestCase(null)]
+        public void IsNotDiceToken(string token)
+        {
+            Assert.That(dice.isDiceToken(token), Is.False);
         }
 
         [TestCase("abcd")]
