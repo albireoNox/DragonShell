@@ -22,7 +22,7 @@ namespace main_cli.math.expression
             var match = TOKEN_PATTERN.Match(rollToken);
             if (!match.Success)
             {
-                throw new ArgumentException(String.Format("Dice roll '{}' invalid format", rollToken));
+                throw new FormatException($"Dice roll '{rollToken}' invalid format");
             }
 
             string diceCount = match.Groups["diceCount"].Value;
