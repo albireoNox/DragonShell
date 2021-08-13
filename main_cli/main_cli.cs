@@ -7,6 +7,7 @@ namespace main_cli
 {
     class CliApp : IAppContext
     {
+        private static readonly string PROMPT = "> ";
         private readonly CmdExecutor cmdExecutor;
 
         public ITextOut textOut { get; }
@@ -23,8 +24,10 @@ namespace main_cli
 
         void main()
         {
+            textOut.writeLine("Welcome!", MsgType.DefaultEmphasis);
             while (true)
             {
+                textOut.write(PROMPT);
                 cmdExecutor.executeRawCmdLine(Console.ReadLine(), this);
             }
         }
@@ -34,13 +37,6 @@ namespace main_cli
             CliApp app = new CliApp();
 
             app.main();
-
-            app.textOut.writeLine("This is text");
-            app.textOut.writeLineErr("This is error text");
-            app.textOut.writeLine("This is dice text", MsgType.InternalMechanics);
-            app.textOut.writeLine("This is data", MsgType.Data);
-            app.textOut.writeLine("This is notes", MsgType.Notes);
-            app.textOut.writeLine("This is debug info", MsgType.DebugInfo);
         }
     }
 }

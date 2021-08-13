@@ -12,6 +12,7 @@
     public enum MsgType
     {
         Default, 
+        DefaultEmphasis,
         Error, 
     
         InternalMechanics,

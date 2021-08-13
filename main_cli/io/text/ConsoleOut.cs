@@ -14,6 +14,8 @@ namespace main_cli.io.text
         {
             switch (type)
             {
+                case MsgType.DefaultEmphasis:
+                    return "\u001b[1m";
                 case MsgType.Error:
                     return "\u001b[31m";
                 case MsgType.InternalMechanics:

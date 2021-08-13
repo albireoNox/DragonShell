@@ -46,7 +46,7 @@ namespace main_cli.cmd
 
             if (cmd == null)
             {
-                ctx.textOut.writeLineErr($"Command '{cmdName}' is not a valid command.");
+                ctx.textOut.writeLineErr($"'{cmdName}' is not a valid command.");
                 return;
             }
 
