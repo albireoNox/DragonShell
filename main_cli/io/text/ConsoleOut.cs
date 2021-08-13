@@ -10,28 +10,28 @@ namespace main_cli.io.text
             writer.WriteLine();
         }
 
-        private string getStyleString(TextStyle style)
+        private string getStyleString(MsgType type)
         {
-            switch (style)
+            switch (type)
             {
-                case TextStyle.Error:
+                case MsgType.Error:
                     return "\u001b[31m";
-                case TextStyle.InternalMechanics:
+                case MsgType.InternalMechanics:
                     return "\u001b[38;5;239m";
-                case TextStyle.Data:
+                case MsgType.Data:
                     return "\u001b[33;1m";
-                case TextStyle.Notes:
+                case MsgType.Notes:
                     return "\u001b[38;5;150m";
-                case TextStyle.DebugInfo:
+                case MsgType.DebugInfo:
                     return "\u001b[38;5;201m";
                 default:
                     return null;
             }
         }
 
-        private void write(string text, TextStyle style, TextWriter writer)
+        private void write(string text, MsgType type, TextWriter writer)
         {
-            var styleFmt = getStyleString(style);
+            var styleFmt = getStyleString(type);
             if (styleFmt != null)
                 writer.Write(styleFmt);
             writer.Write(text);
@@ -44,25 +44,25 @@ namespace main_cli.io.text
             this.newline(Console.Out);
         }
 
-        public void write(string text, TextStyle style = TextStyle.Default)
+        public void write(string text, MsgType type = MsgType.Default)
         {
-            this.write(text, style, Console.Out);
+            this.write(text, type, Console.Out);
         }
 
-        public void writeLine(string text, TextStyle style = TextStyle.Default)
+        public void writeLine(string text, MsgType type = MsgType.Default)
         {
-            this.write(text, style, Console.Out);
+            this.write(text, type, Console.Out);
             this.newline(Console.Out);
         }
 
         public void writeErr(string errText)
         {
-            this.write(errText, TextStyle.Error, Console.Error);
+            this.write(errText, MsgType.Error, Console.Error);
         }
 
         public void writeLineErr(string errText)
         {
-            this.write(errText, TextStyle.Error, Console.Error);
+            this.write(errText, MsgType.Error, Console.Error);
             this.newline(Console.Error);
         }
     }
