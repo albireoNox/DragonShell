@@ -1,5 +1,5 @@
 ﻿using System;
-using main_cli.math.expression;
+using game_engine.math.expression;
 
 namespace main_cli.app
 {
@@ -12,7 +12,7 @@ namespace main_cli.app
         public Singletons(Random random, IAppContext ctx)
         {
             this.dice = new Dice(random);
-            this.expressionParser = new ExpressionParser(dice, ctx);
+            this.expressionParser = new ExpressionParser(dice);
             this.ctx = ctx;
         }
     }

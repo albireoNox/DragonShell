@@ -1,9 +1,9 @@
 using System;
-using main_cli.math.expression;
+using game_engine.math.expression;
 using Moq;
 using NUnit.Framework;
 
-namespace test_main_cli.math.expression
+namespace test_game_engine.math.expression
 {
     public class DiceTest
     {

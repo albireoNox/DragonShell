@@ -1,13 +1,11 @@
-﻿using main_cli.app;
+﻿using game_engine.math.expression;
 using Moq;
 using NUnit.Framework;
 
-namespace main_cli.math.expression
+namespace test_game_engine.math.expression
 {
     class ExpressionParserTest
     {
-        private static readonly IAppContext CTX = NullAppContext.I;
-
         private Mock<Dice> dice;
         private ExpressionParser parser;
 
@@ -15,7 +13,7 @@ namespace main_cli.math.expression
         public void Setup()
         {
             dice = new Mock<Dice>();
-            parser = new ExpressionParser(dice.Object, CTX);
+            parser = new ExpressionParser(dice.Object);
 
             dice.Setup(d => d.roll("d20")).Returns(20);
             dice.Setup(d => d.isDiceToken("d20")).Returns(true);

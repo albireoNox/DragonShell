@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
 using System.Text.RegularExpressions;
 
-namespace main_cli.math.expression
+namespace game_engine.math.expression
 {
     public class Dice
     {

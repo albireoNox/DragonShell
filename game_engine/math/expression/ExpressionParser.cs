@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using main_cli.app;
 
-namespace main_cli.math.expression
+namespace game_engine.math.expression
 {
     public class ExpressionParser
     {
@@ -23,12 +21,10 @@ namespace main_cli.math.expression
         };
 
         private readonly Dice dice;
-        private readonly IAppContext ctx;
 
-        public ExpressionParser(Dice dice, IAppContext ctx)
+        public ExpressionParser(Dice dice)
         {
             this.dice = dice;
-            this.ctx = ctx;
         }
 
         public int evaluateExpression(string expression)
