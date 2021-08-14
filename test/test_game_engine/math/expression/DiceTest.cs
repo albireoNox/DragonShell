@@ -57,21 +57,21 @@ namespace test_game_engine.math.expression
         [Test]
         public void RollD20()
         {
-            random.Setup(x => x.Next(1, 20)).Returns(5);
+            random.Setup(x => x.Next(1, 21)).Returns(5);
             Assert.That(dice.roll("d20"), Is.EqualTo(5));
         }
 
         [Test]
         public void Roll1D20()
         {
-            random.Setup(x => x.Next(1, 20)).Returns(5);
+            random.Setup(x => x.Next(1, 21)).Returns(5);
             Assert.That(dice.roll("1d20"), Is.EqualTo(5));
         }
 
         [Test]
         public void Roll3D20()
         {
-            random.SetupSequence(x => x.Next(1, 20))
+            random.SetupSequence(x => x.Next(1, 21))
                 .Returns(1)
                 .Returns(2)
                 .Returns(3);
