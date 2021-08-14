@@ -21,7 +21,7 @@ namespace main_cli.cmd
             return cmdMap.GetValueOrDefault(name, null);
         }
 
-        public static CmdMapper createWithMappings(Singletons singletons)
+        public static CmdMapper createWithMappings()
         {
             var cmdMap = new Dictionary<string, Cmd>();
 
@@ -32,12 +32,12 @@ namespace main_cli.cmd
                 if (attributes.Length > 0)
                 {
                     CmdAttribute cmdAttribute = (CmdAttribute)attributes[0];
-                    ConstructorInfo ctor = type.GetConstructor(new[] { typeof(Singletons) });
+                    ConstructorInfo ctor = type.GetConstructor(new Type[] { });
                     if (ctor == null)
                     {
                         throw new ApplicationException("Could not find public constructor for type " + type.FullName);
                     }
-                    var cmdImpl = ctor.Invoke(new object[] { singletons });
+                    var cmdImpl = ctor.Invoke(new object[] { });
                     cmdMap.Add(cmdAttribute.name, (Cmd)cmdImpl);
                 }
             }

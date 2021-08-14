@@ -1,5 +1,7 @@
-﻿using main_cli.app;
+﻿using game_engine;
+using main_cli.app;
 using main_cli.cmd;
+using main_cli.io.text;
 using Moq;
 using NUnit.Framework;
 
@@ -11,14 +13,20 @@ namespace test_main_cli.cmd
 
         private Mock<Cmd> testCmd;
         private Mock<CmdMapper> mapper;
+        private Mock<Game> game;
+        private Mock<Application> app;
+        private Mock<TextOut> output;
         private CmdExecutor executor;
 
         [SetUp]
         public void Setup()
         {
-            mapper = new Mock<CmdMapper>();
             testCmd = new Mock<Cmd>();
-            executor = new CmdExecutor(mapper.Object, NullAppContext.I);
+            mapper = new Mock<CmdMapper>();
+            game = new Mock<Game>();
+            app = new Mock<Application>();
+            output = new Mock<TextOut>();
+            executor = new CmdExecutor(mapper.Object, output.Object);
 
             mapper.Setup(m => m.getCmd(CMD_NAME)).Returns(testCmd.Object);
         }
@@ -29,7 +37,7 @@ namespace test_main_cli.cmd
         [TestCase("  \t   \n ")]
         public void NoopInputs(string input)
         {
-            executor.executeRawCmdLine(input);
+            executor.executeRawCmdLine(input, game.Object, app.Object);
             mapper.VerifyNoOtherCalls();
             mapper.VerifyNoOtherCalls();
         }
@@ -37,7 +45,7 @@ namespace test_main_cli.cmd
         [TestCase("@@@")]
         public void InvalidFormats(string input)
         {
-            executor.executeRawCmdLine(input);
+            executor.executeRawCmdLine(input, game.Object, app.Object);
             mapper.VerifyNoOtherCalls();
             mapper.VerifyNoOtherCalls();
         }
@@ -46,7 +54,7 @@ namespace test_main_cli.cmd
         public void InvalidCommand()
         {
             mapper.Setup(m => m.getCmd("invalid")).Returns((Cmd)null);
-            executor.executeRawCmdLine("invalid");
+            executor.executeRawCmdLine("invalid", game.Object, app.Object);
             mapper.Verify(m => m.getCmd("invalid"));
             mapper.VerifyNoOtherCalls();
         }
@@ -57,9 +65,9 @@ namespace test_main_cli.cmd
         [TestCase(" test  ")]
         public void InvokeCommandNoArgs(string input)
         {
-            executor.executeRawCmdLine(input);
+            executor.executeRawCmdLine(input, game.Object, app.Object);
             mapper.Verify(m => m.getCmd(CMD_NAME));
-            testCmd.Verify(c => c.executeCmd(""));
+            testCmd.Verify(c => c.executeCmd("", game.Object, app.Object));
         }
         
         [TestCase("test a", "a")]
@@ -68,9 +76,9 @@ namespace test_main_cli.cmd
         [TestCase("test  a b  c  ", "a b  c")]
         public void InvokeCommandWithArgs(string input, string expectedArgs)
         {
-            executor.executeRawCmdLine(input);
+            executor.executeRawCmdLine(input, game.Object, app.Object);
             mapper.Verify(m => m.getCmd(CMD_NAME));
-            testCmd.Verify(c => c.executeCmd(expectedArgs));
+            testCmd.Verify(c => c.executeCmd(expectedArgs, game.Object, app.Object));
         }
     }
 }

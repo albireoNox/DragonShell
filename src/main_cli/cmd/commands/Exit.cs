@@ -1,21 +1,15 @@
-﻿using main_cli.app;
+﻿using game_engine;
+using main_cli.app;
 
 namespace main_cli.cmd.commands
 {
     [Cmd("exit")]
     class Exit : Cmd
     {
-        private readonly IAppContext ctx;
-
-        public Exit(Singletons singletons)
+        public override void executeCmd(string args, Game game, Application app)
         {
-            this.ctx = singletons.ctx;
-        }
-
-        public override void executeCmd(string args)
-        {
-            ctx.textOut.writeLine("Exiting the application!");
-            ctx.exit();
+            app.textOut.writeLine("Exiting the application!");
+            app.exit();
         }
     }
 }

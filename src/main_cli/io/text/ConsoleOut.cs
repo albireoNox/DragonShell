@@ -3,7 +3,7 @@ using System.IO;
 
 namespace main_cli.io.text
 {
-    public class ConsoleOut : ITextOut
+    public class ConsoleOut : TextOut
     {
         private void newline(TextWriter writer)
         {
@@ -15,7 +15,7 @@ namespace main_cli.io.text
             switch (type)
             {
                 case MsgType.DefaultEmphasis:
-                    return "\u001b[1m";
+                    return getStyleString(MsgType.Default) + "\u001b[4m";
                 case MsgType.Error:
                     return "\u001b[31m";
                 case MsgType.InternalMechanics:
@@ -27,7 +27,7 @@ namespace main_cli.io.text
                 case MsgType.DebugInfo:
                     return "\u001b[38;5;201m";
                 default:
-                    return null;
+                    return "\u001b[38;5;154m";
             }
         }
 

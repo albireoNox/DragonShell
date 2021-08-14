@@ -1,33 +1,23 @@
 ﻿using System;
-using game_engine.math.expression;
+using game_engine;
 using main_cli.app;
-using main_cli.io.text;
 
 namespace main_cli.cmd.commands
 {
     [Cmd("roll")]
     class Roll : Cmd
     {
-        private readonly ExpressionParser expressionParser;
-        private readonly ITextOut textOut;
-
-        public Roll(Singletons singletons)
-        {
-            this.expressionParser = singletons.expressionParser;
-            this.textOut = singletons.ctx.textOut;
-        }
-
-        public override void executeCmd(string args)
+        public override void executeCmd(string args, Game game, Application app)
         {
             try
             {
-                int result = expressionParser.evaluateExpression(args);
-                textOut.writeLine($"Rolled a {result}");
+                int result = game.expressionParser.evaluateExpression(args);
+                app.textOut.writeLine($"Rolled {result}");
             }
             catch (FormatException e)
             {
-                textOut.writeLineErr(e.Message);
-                textOut.writeLineErr("Roll failed.");
+                app.textOut.writeLineErr(e.Message);
+                app.textOut.writeLineErr("Roll failed.");
             }
         }
     }

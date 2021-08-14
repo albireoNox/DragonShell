@@ -1,17 +1,19 @@
 ﻿using System;
+using game_engine;
 using main_cli.app;
 using main_cli.io.text;
 using main_cli.cmd;
 
 namespace main_cli
 {
-    class CliApp : IAppContext
+    class CliApp : Application
     {
         private static readonly string PROMPT = "> ";
         private readonly CmdExecutor cmdExecutor;
-        private readonly Singletons singletons;
+        private readonly Game game;
 
-        public ITextOut textOut { get; }
+        public CmdMapper cmdMapper { get; }
+        public TextOut textOut { get; }
         public void exit()
         {
             Environment.Exit(0);
@@ -20,8 +22,9 @@ namespace main_cli
         CliApp()
         {
             this.textOut = new ConsoleOut();
-            this.singletons = new Singletons(new Random(), this);
-            this.cmdExecutor = new CmdExecutor(CmdMapper.createWithMappings(this.singletons), this);
+            this.game = new Game(new Random());
+            this.cmdMapper = CmdMapper.createWithMappings();
+            this.cmdExecutor = new CmdExecutor(cmdMapper, textOut);
         }
 
         void main()
@@ -30,7 +33,7 @@ namespace main_cli
             while (true)
             {
                 textOut.write(PROMPT);
-                cmdExecutor.executeRawCmdLine(Console.ReadLine());
+                cmdExecutor.executeRawCmdLine(Console.ReadLine(), game, this);
             }
         }
 

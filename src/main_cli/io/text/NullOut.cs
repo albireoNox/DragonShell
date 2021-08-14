@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace main_cli.io.text
 {
-    class NullOut : ITextOut
+    class NullOut : TextOut
     {
         public static readonly NullOut I = new NullOut();
 

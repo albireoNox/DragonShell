@@ -1,6 +1,6 @@
 ﻿namespace main_cli.io.text
 {
-    public interface ITextOut
+    public interface TextOut
     {
         void writeLine(string text, MsgType type=MsgType.Default);
         void write(string text, MsgType type=MsgType.Default);

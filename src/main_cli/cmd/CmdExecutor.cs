@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using game_engine;
 using main_cli.app;
+using main_cli.io.text;
 
 namespace main_cli.cmd
 {
@@ -12,15 +14,15 @@ namespace main_cli.cmd
             TimeSpan.FromSeconds(3.0));
 
         private readonly CmdMapper mapper;
-        private readonly IAppContext ctx;
+        private readonly TextOut output;
 
-        public CmdExecutor(CmdMapper mapper, IAppContext ctx)
+        public CmdExecutor(CmdMapper mapper, TextOut output)
         {
             this.mapper = mapper;
-            this.ctx = ctx;
+            this.output = output;
         }
 
-        public void executeRawCmdLine(string line)
+        public void executeRawCmdLine(string line, Game game, Application app)
         {
             if (line == null)
             {
@@ -37,7 +39,7 @@ namespace main_cli.cmd
             var match = CMD_PATTERN.Match(trimmedLine);
             if (!match.Success)
             {
-                ctx.textOut.writeLineErr("Invalid command format!");
+                output.writeLineErr("Invalid command format!");
                 return;
             }
 
@@ -48,11 +50,11 @@ namespace main_cli.cmd
 
             if (cmd == null)
             {
-                ctx.textOut.writeLineErr($"'{cmdName}' is not a valid command.");
+                output.writeLineErr($"'{cmdName}' is not a valid command.");
                 return;
             }
 
-            cmd.executeCmd(cmdArgs);
+            cmd.executeCmd(cmdArgs, game, app);
         }
     }
 }
