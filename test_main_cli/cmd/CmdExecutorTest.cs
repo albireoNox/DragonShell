@@ -8,7 +8,6 @@ namespace test_main_cli.cmd
     public class CmdExecutorTest
     {
         private static readonly string CMD_NAME = "test";
-        private static readonly IAppContext CTX = NullAppContext.I;
 
         private Mock<Cmd> testCmd;
         private Mock<CmdMapper> mapper;
@@ -19,7 +18,7 @@ namespace test_main_cli.cmd
         {
             mapper = new Mock<CmdMapper>();
             testCmd = new Mock<Cmd>();
-            executor = new CmdExecutor(mapper.Object);
+            executor = new CmdExecutor(mapper.Object, NullAppContext.I);
 
             mapper.Setup(m => m.getCmd(CMD_NAME)).Returns(testCmd.Object);
         }
@@ -30,7 +29,7 @@ namespace test_main_cli.cmd
         [TestCase("  \t   \n ")]
         public void NoopInputs(string input)
         {
-            executor.executeRawCmdLine(input, CTX);
+            executor.executeRawCmdLine(input);
             mapper.VerifyNoOtherCalls();
             mapper.VerifyNoOtherCalls();
         }
@@ -38,7 +37,7 @@ namespace test_main_cli.cmd
         [TestCase("@@@")]
         public void InvalidFormats(string input)
         {
-            executor.executeRawCmdLine(input, CTX);
+            executor.executeRawCmdLine(input);
             mapper.VerifyNoOtherCalls();
             mapper.VerifyNoOtherCalls();
         }
@@ -47,7 +46,7 @@ namespace test_main_cli.cmd
         public void InvalidCommand()
         {
             mapper.Setup(m => m.getCmd("invalid")).Returns((Cmd)null);
-            executor.executeRawCmdLine("invalid", CTX);
+            executor.executeRawCmdLine("invalid");
             mapper.Verify(m => m.getCmd("invalid"));
             mapper.VerifyNoOtherCalls();
         }
@@ -58,7 +57,7 @@ namespace test_main_cli.cmd
         [TestCase(" test  ")]
         public void InvokeCommandNoArgs(string input)
         {
-            executor.executeRawCmdLine(input, NullAppContext.I);
+            executor.executeRawCmdLine(input);
             mapper.Verify(m => m.getCmd(CMD_NAME));
             testCmd.Verify(c => c.executeCmd(""));
         }
@@ -69,7 +68,7 @@ namespace test_main_cli.cmd
         [TestCase("test  a b  c  ", "a b  c")]
         public void InvokeCommandWithArgs(string input, string expectedArgs)
         {
-            executor.executeRawCmdLine(input, NullAppContext.I);
+            executor.executeRawCmdLine(input);
             mapper.Verify(m => m.getCmd(CMD_NAME));
             testCmd.Verify(c => c.executeCmd(expectedArgs));
         }

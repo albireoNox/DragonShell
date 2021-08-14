@@ -21,7 +21,7 @@ namespace main_cli
         {
             this.textOut = new ConsoleOut();
             this.singletons = new Singletons(new Random(), this);
-            this.cmdExecutor = new CmdExecutor(CmdMapper.createWithMappings(this.singletons));
+            this.cmdExecutor = new CmdExecutor(CmdMapper.createWithMappings(this.singletons), this);
         }
 
         void main()
@@ -30,7 +30,7 @@ namespace main_cli
             while (true)
             {
                 textOut.write(PROMPT);
-                cmdExecutor.executeRawCmdLine(Console.ReadLine(), this);
+                cmdExecutor.executeRawCmdLine(Console.ReadLine());
             }
         }
 

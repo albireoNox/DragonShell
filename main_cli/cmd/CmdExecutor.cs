@@ -12,13 +12,15 @@ namespace main_cli.cmd
             TimeSpan.FromSeconds(3.0));
 
         private readonly CmdMapper mapper;
+        private readonly IAppContext ctx;
 
-        public CmdExecutor(CmdMapper mapper)
+        public CmdExecutor(CmdMapper mapper, IAppContext ctx)
         {
             this.mapper = mapper;
+            this.ctx = ctx;
         }
 
-        public void executeRawCmdLine(string line, IAppContext ctx)
+        public void executeRawCmdLine(string line)
         {
             if (line == null)
             {
