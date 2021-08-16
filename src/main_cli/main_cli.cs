@@ -22,7 +22,7 @@ namespace main_cli
         CliApp()
         {
             this.textOut = new ConsoleOut();
-            this.game = new Game(new Random());
+            this.game = Game.create(new Random());
             this.cmdMapper = CmdMapper.createWithMappings();
             this.cmdExecutor = new CmdExecutor(cmdMapper, textOut);
         }

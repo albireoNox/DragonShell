@@ -22,12 +22,14 @@ namespace game_engine.math.expression
 
         private readonly Dice dice;
 
+        public ExpressionParser() { } // Test mocks need this
+
         public ExpressionParser(Dice dice)
         {
             this.dice = dice;
         }
 
-        public int evaluateExpression(string expression)
+        public virtual int evaluateExpression(string expression)
         {
             StringBuilder tokenBuilder = new StringBuilder();
             bool expectingToken = true; // For determining if operator is unary

@@ -27,7 +27,7 @@ namespace main_cli.io.text
                 case MsgType.DebugInfo:
                     return "\u001b[38;5;201m";
                 default:
-                    return "\u001b[38;5;154m";
+                    return null;
             }
         }
 
@@ -36,7 +36,7 @@ namespace main_cli.io.text
             var styleFmt = getStyleString(type);
             if (styleFmt != null)
                 writer.Write(styleFmt);
-            writer.Write(text);
+            writer.Write(text.Replace("\t", "    "));
             if (styleFmt != null)
                 writer.Write("\u001b[0m");
         }

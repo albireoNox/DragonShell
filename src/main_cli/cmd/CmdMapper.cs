@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using main_cli.app;
 
 namespace main_cli.cmd
 {
@@ -19,6 +18,11 @@ namespace main_cli.cmd
         public virtual Cmd getCmd(string name)
         {
             return cmdMap.GetValueOrDefault(name, null);
+        }
+
+        public virtual IEnumerable<string> getCommandNames()
+        {
+            return this.cmdMap.Keys;
         }
 
         public static CmdMapper createWithMappings()
