@@ -1,47 +1,53 @@
-﻿using game_engine.math.expression;
-using Moq;
+﻿using System;
+using System.Linq;
+using game_engine.math.expression;
 using NUnit.Framework;
 
 namespace test_game_engine.math.expression
 {
     class ExpressionParserTest
     {
-        private Mock<Dice> dice;
         private ExpressionParser parser;
 
         [SetUp]
         public void Setup()
         {
-            dice = new Mock<Dice>();
-            parser = new ExpressionParser(dice.Object);
-
-            dice.Setup(d => d.roll("d20")).Returns(20);
-            dice.Setup(d => d.isDiceToken("d20")).Returns(true);
-            dice.Setup(d => d.roll("2d20")).Returns(40);
-            dice.Setup(d => d.isDiceToken("2d20")).Returns(true);
+            parser = new ExpressionParser();
         }
 
-        [TestCase("2", 2)]
-        [TestCase("2 + 1", 3)]
-        [TestCase("2+1", 3)]
-        [TestCase(" 2+1  ", 3)]
-        [TestCase("2 - 1", 1)]
-        [TestCase("2 * 3", 6)]
-        [TestCase("6 / 2", 3)]
-        [TestCase("2 * -3", -6)]
-        [TestCase("2 * +3", 6)]
-        [TestCase("1 + 2 * 3", 7)]
-        [TestCase("(1 + 2) * 3", 9)]
-        [TestCase("3 * (1 + 2)", 9)]
-        [TestCase("(1 + 2) * (4 + 5)", 27)]
-        [TestCase("(1 + 2 * (3 + 4)) * 5", 75)]
-        [TestCase("d20 + 4", 24)]
-        [TestCase("4 + d20", 24)]
-        [TestCase("4 + 2d20", 44)]
+        [TestCase("2", "2")]
+        [TestCase("2 + 1", "+(2,1)")]
+        [TestCase("2+1", "+(2,1)")]
+        [TestCase(" 2+1  ", "+(2,1)")]
+        [TestCase("2 - 1", "-(2,1)")]
+        [TestCase("2 * 3", "*(2,3)")]
+        [TestCase("6 / 2", "/(6,2)")]
+        [TestCase("2 * -3", "*(2,-(3))")]
+        [TestCase("2 * +3", "*(2,+(3))")]
+        [TestCase("1 + 2 * 3", "+(1,*(2,3))")]
+        [TestCase("(1 + 2) * 3", "*(+(1,2),3)")]
+        [TestCase("3 * (1 + 2)", "*(3,+(1,2))")]
+        [TestCase("(1 + 2) * (4 + 5)", "*(+(1,2),+(4,5))")]
+        [TestCase("(1 + 2 * (3 + 4)) * 5", "*(+(1,*(2,+(3,4))),5)")]
+        [TestCase("d20 + 4", "+(d20,4)")]
+        [TestCase("4 + d20", "+(4,d20)")]
+        [TestCase("4 + 2d20", "+(4,2d20)")]
 
-        public void validExpression(string testExpression, int expectedResult)
+        public void validExpression(string testExpression, string expectedResult)
         {
-            Assert.That(parser.evaluateExpression(testExpression), Is.EqualTo(expectedResult));
-        } 
+            Assert.That(astString(parser.parseExpression(testExpression)), Is.EqualTo(expectedResult));
+        }
+
+        private static string astString(AstNode node)
+        {
+            if (node.args == null)
+            {
+                return node.text;
+            }
+            else
+            {
+                return node.text + "(" + string.Join(',', node.args.Select(astString)) +  ")";
+            }
+        }
     }
 }

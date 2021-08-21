@@ -1,151 +1,179 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
+using game_engine.errors;
 
 namespace game_engine.math.expression
 {
+    /**
+     * Convert a text math expression into an AST
+     */
     public class ExpressionParser
     {
-        private const char UNARY_MINUS = '_';
-        private static readonly HashSet<char> OPERATORS = new() { '+', '-', '*', '/', '(', ')'};
-        private static readonly Dictionary<char, int> PRECEDENCE = new()
+        private static readonly HashSet<char> NON_TOKEN_CHARS = new() { '+', '-', '*', '/', '(', ')' };
+        private static readonly HashSet<string> OPERATORS = new() { "+", "-", "*", "/"};
+       
+        public ExpressionParser() { }
+
+        // Unary operators implicitly have highest precedence. 
+        private static readonly Dictionary<string, int> PRECEDENCE = new()
         {
-            {'+', 1},
-            {'-', 1},
-            {'*', 2},
-            {'/', 2},
-            {UNARY_MINUS, 3},
-            
-            {'(', 0},
-            {')', 0},
+            {"+", 1},
+            {"-", 1},
+            {"*", 2},
+            {"/", 2},
+            {"(", 0},
+            {")", 0},
         };
 
-        private readonly Dice dice;
-
-        public ExpressionParser() { } // Test mocks need this
-
-        public ExpressionParser(Dice dice)
+        public virtual AstNode parseExpression(string expression)
         {
-            this.dice = dice;
+            Stack<PostfixToken> postfixTokens = lexToPostfix(expression);
+            if (postfixTokens.Count == 0)
+            {
+                return null;
+            }
+            return buildAst(postfixTokens);
         }
 
-        public virtual int evaluateExpression(string expression)
+        private static IEnumerable<Token> lexExpression(string expression)
         {
             StringBuilder tokenBuilder = new StringBuilder();
-            bool expectingToken = true; // For determining if operator is unary
-            Stack<char> operators = new Stack<char>();
-            Stack<int> tokens = new Stack<int>();
-            foreach (char c in expression)
+            for (int i = 0; i < expression.Length; i++)
             {
+                char c = expression[i];
                 if (char.IsLetterOrDigit(c))
                 {
                     tokenBuilder.Append(c);
-                    expectingToken = false;
-                } 
-                else if (OPERATORS.Contains(c))
+                }
+                else
                 {
-                    parseAndPushToken(tokenBuilder, tokens);
-
-                    if (expectingToken && c == '+') // Unary + is a noop
+                    bool isOperator = NON_TOKEN_CHARS.Contains(c);
+                    if (!(isOperator || char.IsWhiteSpace(c)))
                     {
-                        continue;
-                    } 
-                    else if (expectingToken && c == '-')
-                    {
-                        // Unary - is the highest precedence, so no need to check on that
-                        operators.Push(UNARY_MINUS);
-                    } 
-                    else if (c == '(')
-                    {
-                        operators.Push(c);
+                        throw new ExpressionException($"Invalid character '{c}'.", i);
                     }
-                    else if (c == ')')
+
+                    if (tokenBuilder.Length > 0)
                     {
-                        while (operators.Peek() != '(')
-                        {
-                            performOperation(tokens, operators);
-                        }
-                        operators.Pop();
-                    } 
+                        yield return Token.create(tokenBuilder.ToString(), i);
+                        tokenBuilder.Clear();
+                    }
+
+                    if (isOperator)
+                    {
+                        yield return Token.create(c.ToString(), i);
+                    }
+                }
+            }
+
+            if (tokenBuilder.Length > 0)
+            {
+                yield return Token.create(tokenBuilder.ToString(), expression.Length);
+            }
+        }
+
+        private static Stack<PostfixToken> lexToPostfix(string expression)
+        {
+            Stack<PostfixToken> operators = new Stack<PostfixToken>();
+            Stack<PostfixToken> postfixTokens = new Stack<PostfixToken>();
+            Token previous = Token.create(null, -1);
+
+            foreach (Token t in lexExpression(expression))
+            {
+                if (t.text == "(")
+                {
+                    operators.Push(t.asPostfix(0));
+                }
+                else if (t.text == ")")
+                {
+                    while (operators.Peek().token.text != "(")
+                    {
+                        postfixTokens.Push(operators.Pop());
+                    }
+                    operators.Pop();
+                }
+                else if (t.isOp())
+                {
+                    if (previous.isOp()) // Unary operator
+                    {
+                        operators.Push(t.asPostfix(1));
+                    }
                     else
                     {
-                        while (operators.Count > 0 && precedenceOf(operators.Peek()) > precedenceOf(c))
+                        while (operators.Count > 0 && operators.Peek().token.precedence() > t.precedence())
                         {
-                            performOperation(tokens, operators);
+                            postfixTokens.Push(operators.Pop());
                         }
-                        operators.Push(c);
-                        expectingToken = true;
+                        operators.Push(t.asPostfix(2));
                     }
                 }
-                else if (char.IsWhiteSpace(c))
+                else
                 {
-                    parseAndPushToken(tokenBuilder, tokens);
+                    postfixTokens.Push(t.asPostfix(0));
                 }
-                else // Invalid character
-                {
-                    throw new FormatException("Invalid character");
-                }
+                previous = t;
             }
 
-            parseAndPushToken(tokenBuilder, tokens);
             while (operators.Count > 0)
             {
-                performOperation(tokens, operators);
+                postfixTokens.Push(operators.Pop());
             }
 
-            if (tokens.Count == 1)
+            return postfixTokens;
+        }
+
+        private static AstNode buildAst(Stack<PostfixToken> postfixTokens)
+        {
+            PostfixToken ptoken = postfixTokens.Pop();
+            if (ptoken.numArgs > 0)
             {
-                return tokens.Pop();
+                AstNode[] args = new AstNode[ptoken.numArgs];
+                for (int iArg = ptoken.numArgs - 1; iArg >= 0; iArg--)
+                {
+                    args[iArg] = buildAst(postfixTokens);
+                }
+                return AstNode.function(ptoken.token.text, args);
             }
             else
             {
-                throw new FormatException("Invalid expression.");
-            }
-
-        }
-
-        private void performOperation(Stack<int> tokens, Stack<char> operators)
-        {
-            int right = tokens.Pop();
-            switch (operators.Pop())
-            {
-                case '+':
-                    tokens.Push(tokens.Pop() + right);
-                    break;
-                case '-':
-                    tokens.Push(tokens.Pop() - right);
-                    break;
-                case '*':
-                    tokens.Push(tokens.Pop() * right);
-                    break;
-                case '/':
-                    tokens.Push(tokens.Pop() / right);
-                    break;
-                case UNARY_MINUS:
-                    tokens.Push(-right);
-                    break;
+                return AstNode.token(ptoken.token.text);
             }
         }
 
-        private static int precedenceOf(char op)
+        private readonly struct Token
         {
-            return PRECEDENCE[op];
+            public string text { get; private init; }
+            public int index { get; private init; }
+
+            public static Token create(string text, int index)
+            {
+                return new Token { text = text, index = index};
+            }
+
+            public int precedence()
+            {
+                return PRECEDENCE[text];
+            }
+
+            public bool isOp()
+            {
+                return OPERATORS.Contains(text);
+            }
+
+            public PostfixToken asPostfix(int numArgs)
+            {
+                return PostfixToken.create(this, numArgs);
+            }
         }
 
-        private void parseAndPushToken(StringBuilder tokenBuilder, Stack<int> tokens)
+        private readonly struct PostfixToken
         {
-            if (tokenBuilder.Length > 0)
+            public Token token { get; private init; }
+            public int numArgs { get; private init; }
+
+            public static PostfixToken create(Token token, int numArgs)
             {
-                string token = tokenBuilder.ToString();
-                if (dice.isDiceToken(token))
-                {
-                    tokens.Push(dice.roll(token));
-                }
-                else // It's a number
-                {
-                    tokens.Push(int.Parse(token));
-                }
-                tokenBuilder.Clear();
+                return new PostfixToken { token = token, numArgs = numArgs };
             }
         }
     } 

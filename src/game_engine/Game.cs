@@ -8,22 +8,20 @@ namespace game_engine
      */
     public class Game
     {
-        public Dice dice;
-        public ExpressionParser expressionParser;
-
-        public Game() { } // Test mocks need this
-
-        public Game(Dice dice, ExpressionParser expressionParser)
-        {
-            this.dice = dice;
-            this.expressionParser = expressionParser;
-        }
+        public Dice dice { get; init; }
+        public ExpressionParser expressionParser { get; init; }
+        public ExpressionEvaluator expressionEvaluator { get; init; }
 
         public static Game create(Random random)
         {
             var dice = new Dice(random);
-            var expressionParser = new ExpressionParser(dice);
-            return new Game(dice, expressionParser);
+            var expressionEvaluator = new ExpressionEvaluator(dice);
+            return new Game
+            {
+                dice = dice,
+                expressionParser = new ExpressionParser(),
+                expressionEvaluator = expressionEvaluator
+            };
         }
     }
 }

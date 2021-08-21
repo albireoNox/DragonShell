@@ -12,16 +12,25 @@ namespace test_main_cli.cmd.commands
     {
         private Game game;
         private Mock<Application> app;
+        private Mock<ExpressionEvaluator> evaluator;
         private Mock<ExpressionParser> parser;
+        private AstNode ast;
         private Mock<TextOut> textOut;
         private Roll rollCmd;
 
         [SetUp]
         public void Setup()
         {
+            evaluator = new Mock<ExpressionEvaluator>();
             parser = new Mock<ExpressionParser>();
             textOut = new Mock<TextOut>();
-            game = new Game(null, parser.Object);
+            ast = AstNode.token("test");
+            game = new Game()
+            {
+                dice = null,
+                expressionParser = parser.Object,
+                expressionEvaluator = evaluator.Object
+            };
             app = new Mock<Application>();
             app.SetupGet(a => a.textOut).Returns(textOut.Object);
             rollCmd = new Roll();
@@ -30,9 +39,11 @@ namespace test_main_cli.cmd.commands
         [Test]
         public void RunCmd()
         {
-            parser.Setup(p => p.evaluateExpression("d20 + 1")).Returns(5);
+            parser.Setup(p => p.parseExpression("d20 + 1")).Returns(ast);
+            evaluator.Setup(e => e.closureFromAst(ast)).Returns(ctx => 5);
             rollCmd.executeCmd("d20 + 1", game, app.Object);
-            parser.Verify(p => p.evaluateExpression("d20 + 1"));
+            parser.Verify(p => p.parseExpression("d20 + 1"));
+            evaluator.Verify(e => e.closureFromAst(ast));
             textOut.Verify(t => t.writeLine("Rolled 5", MsgType.Default));
         }
     }

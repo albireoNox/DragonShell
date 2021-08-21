@@ -1,5 +1,6 @@
 ﻿using System;
 using game_engine;
+using game_engine.math.expression;
 using main_cli.app;
 
 namespace main_cli.cmd.commands
@@ -11,7 +12,7 @@ namespace main_cli.cmd.commands
         {
             try
             {
-                int result = game.expressionParser.evaluateExpression(args);
+                int result = game.expressionEvaluator.closureFromAst(game.expressionParser.parseExpression(args)).Invoke(null);
                 app.textOut.writeLine($"Rolled {result}");
             }
             catch (FormatException e)
