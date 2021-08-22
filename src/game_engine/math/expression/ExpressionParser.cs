@@ -76,7 +76,7 @@ namespace game_engine.math.expression
         {
             Stack<PostfixToken> operators = new Stack<PostfixToken>();
             Stack<PostfixToken> postfixTokens = new Stack<PostfixToken>();
-            Token previous = Token.create(null, -1);
+            Token? previous = null;
 
             foreach (Token t in lexExpression(expression))
             {
@@ -94,7 +94,7 @@ namespace game_engine.math.expression
                 }
                 else if (t.isOp())
                 {
-                    if (previous.isOp()) // Unary operator
+                    if (previous?.isOp() ?? true) // Unary operator
                     {
                         operators.Push(t.asPostfix(1));
                     }

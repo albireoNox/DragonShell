@@ -16,6 +16,7 @@ namespace test_game_engine.math.expression
         }
 
         [TestCase("2", "2")]
+        [TestCase("-2", "-(2)")]
         [TestCase("2 + 1", "+(2,1)")]
         [TestCase("2+1", "+(2,1)")]
         [TestCase(" 2+1  ", "+(2,1)")]
