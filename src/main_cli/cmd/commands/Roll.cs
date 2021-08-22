@@ -12,13 +12,18 @@ namespace main_cli.cmd.commands
         {
             try
             {
-                int result = game.expressionEvaluator.closureFromAst(game.expressionParser.parseExpression(args)).Invoke(null);
+                int result = game.expressionEvaluator.closureFromAst(game.expressionParser.parseExpression(args))
+                    .Invoke(null);
                 app.textOut.writeLine($"Rolled {result}");
             }
             catch (FormatException e)
             {
                 app.textOut.writeLineErr(e.Message);
                 app.textOut.writeLineErr("Roll failed.");
+            }
+            catch (OverflowException e)
+            {
+                app.textOut.writeLineErr(e.Message);
             }
         }
 
