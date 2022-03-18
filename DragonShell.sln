@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		todo.md = todo.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "game_system_rulesets", "game_system_rulesets\game_system_rulesets.csproj", "{F1E64E86-948A-4BB5-B6CC-217C9666A036}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "game_system_rulesets", "src\game_system_rulesets\game_system_rulesets.csproj", "{F1E64E86-948A-4BB5-B6CC-217C9666A036}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
