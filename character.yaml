@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+
+Character:
+    Type: Entity
+    BaseAttributes:
+        - Attribute:
+            Name: STRENGTH
+            Type: Number
+            AKA:
+                - STR

@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\game_system_rulesets\game_system_rulesets.csproj" />
     <ProjectReference Include="..\game_engine\game_engine.csproj" />
   </ItemGroup>
 

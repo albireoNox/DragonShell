@@ -1,8 +1,10 @@
 ﻿using System;
 using game_engine;
+using game_system_rulesets.objects;
 using main_cli.app;
 using main_cli.io.text;
 using main_cli.cmd;
+using main_cli.io.file;
 
 namespace main_cli
 {
@@ -40,6 +42,8 @@ namespace main_cli
         static void Main(string[] args)
         {
             CliApp app = new CliApp();
+
+            Ruleset rs = RulesetIo.loadRuleset("3_5");
 
             app.main();
         }
