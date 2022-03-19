@@ -1,12 +1,12 @@
-﻿using game_engine;
+﻿using cli_application.app;
+using cli_application.cmd.commands;
+using cli_application.io.text;
+using game_engine;
 using game_engine.math.expression;
-using main_cli.app;
-using main_cli.cmd.commands;
-using main_cli.io.text;
 using Moq;
 using NUnit.Framework;
 
-namespace test_main_cli.cmd.commands
+namespace test_cli_application.cmd.commands
 {
     public class RollTest
     {

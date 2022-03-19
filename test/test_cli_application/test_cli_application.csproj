@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\main_cli\main_cli.csproj" />
+    <ProjectReference Include="..\..\src\cli_application\cli_application.csproj" />
   </ItemGroup>
 
 </Project>

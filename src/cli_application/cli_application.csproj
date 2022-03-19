@@ -1,8 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+    <AssemblyName>cli_application</AssemblyName>
+    <RootNamespace>cli_application</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

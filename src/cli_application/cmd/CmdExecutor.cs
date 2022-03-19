@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using cli_application.app;
+using cli_application.io.text;
 using game_engine;
-using main_cli.app;
-using main_cli.io.text;
 
-namespace main_cli.cmd
+namespace cli_application.cmd
 {
     public class CmdExecutor
     {

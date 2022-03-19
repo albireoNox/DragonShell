@@ -1,14 +1,13 @@
 ﻿using System;
+using cli_application.cmd;
+using cli_application.io.text;
 using game_engine;
+using game_system_rulesets.io;
 using game_system_rulesets.objects;
-using main_cli.app;
-using main_cli.io.text;
-using main_cli.cmd;
-using main_cli.io.file;
 
-namespace main_cli
+namespace cli_application.app
 {
-    class CliApp : Application
+    public class CliApp : Application
     {
         private static readonly string PROMPT = "> ";
         private readonly CmdExecutor cmdExecutor;
@@ -21,7 +20,7 @@ namespace main_cli
             Environment.Exit(0);
         }
 
-        CliApp()
+        public CliApp()
         {
             this.textOut = new ConsoleOut();
             this.game = Game.create(new Random());
@@ -29,23 +28,15 @@ namespace main_cli
             this.cmdExecutor = new CmdExecutor(cmdMapper, textOut);
         }
 
-        void main()
+        public void main()
         {
+            Ruleset rs = RulesetIo.loadRuleset("3_5");
             textOut.writeLine("Welcome!", MsgType.DefaultEmphasis);
             while (true)
             {
                 textOut.write(PROMPT);
                 cmdExecutor.executeRawCmdLine(Console.ReadLine(), game, this);
             }
-        }
-
-        static void Main(string[] args)
-        {
-            CliApp app = new CliApp();
-
-            Ruleset rs = RulesetIo.loadRuleset("3_5");
-
-            app.main();
         }
     }
 }

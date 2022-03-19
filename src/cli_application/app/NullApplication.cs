@@ -1,7 +1,7 @@
-﻿using main_cli.cmd;
-using main_cli.io.text;
+﻿using cli_application.cmd;
+using cli_application.io.text;
 
-namespace main_cli.app
+namespace cli_application.app
 {
     public class NullApplication : Application
     {

@@ -1,7 +1,7 @@
-﻿using game_engine;
-using main_cli.app;
+﻿using cli_application.app;
+using game_engine;
 
-namespace main_cli.cmd
+namespace cli_application.cmd
 {
     public abstract class Cmd
     {

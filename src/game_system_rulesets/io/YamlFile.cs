@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using YamlDotNet.Serialization;
 
-namespace main_cli.io.file
+namespace game_system_rulesets.io
 {
     static class YamlFile
     {

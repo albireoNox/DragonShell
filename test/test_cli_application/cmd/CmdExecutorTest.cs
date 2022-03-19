@@ -1,11 +1,12 @@
-﻿using game_engine;
-using main_cli.app;
-using main_cli.cmd;
-using main_cli.io.text;
+﻿using System.Net.Mime;
+using cli_application.app;
+using cli_application.cmd;
+using cli_application.io.text;
+using game_engine;
 using Moq;
 using NUnit.Framework;
 
-namespace test_main_cli.cmd
+namespace test_cli_application.cmd
 {
     public class CmdExecutorTest
     {

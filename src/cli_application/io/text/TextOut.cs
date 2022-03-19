@@ -1,4 +1,4 @@
-﻿namespace main_cli.io.text
+﻿namespace cli_application.io.text
 {
     public interface TextOut
     {

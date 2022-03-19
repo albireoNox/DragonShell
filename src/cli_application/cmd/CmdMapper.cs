@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace main_cli.cmd
+namespace cli_application.cmd
 {
     public class CmdMapper
     {

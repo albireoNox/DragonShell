@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Immutable;
+using cli_application.app;
 using game_engine;
-using main_cli.app;
 
-namespace main_cli.cmd.commands
+namespace cli_application.cmd.commands
 {
     [Cmd("help")]
     public class Help : Cmd

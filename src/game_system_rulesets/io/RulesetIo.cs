@@ -2,7 +2,7 @@
 using System.IO;
 using game_system_rulesets.objects;
 
-namespace main_cli.io.file
+namespace game_system_rulesets.io
 {
     public static class RulesetIo
     {

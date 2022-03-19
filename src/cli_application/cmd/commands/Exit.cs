@@ -1,8 +1,8 @@
 ﻿using System;
+using cli_application.app;
 using game_engine;
-using main_cli.app;
 
-namespace main_cli.cmd.commands
+namespace cli_application.cmd.commands
 {
     [Cmd("exit")]
     public class Exit : Cmd

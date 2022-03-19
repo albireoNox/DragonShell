@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace main_cli.cmd
+namespace cli_application.cmd
 {
     [System.AttributeUsage(System.AttributeTargets.Class)]
     class CmdAttribute : Attribute
