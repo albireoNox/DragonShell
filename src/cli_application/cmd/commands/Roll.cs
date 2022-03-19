@@ -9,6 +9,11 @@ namespace cli_application.cmd.commands
     {
         public override void executeCmd(string args, Game game, Application app)
         {
+            if (string.IsNullOrEmpty(args))
+            {
+                throw new ArgumentException("Must provide expression for roll");
+            }
+
             try
             {
                 int result = game.expressionEvaluator.closureFromAst(game.expressionParser.parseExpression(args))
