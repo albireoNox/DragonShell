@@ -35,7 +35,18 @@ namespace cli_application.app
             while (true)
             {
                 textOut.write(PROMPT);
-                cmdExecutor.executeRawCmdLine(Console.ReadLine(), game, this);
+
+                try
+                {
+                    cmdExecutor.executeRawCmdLine(Console.ReadLine(), game, this);
+                }
+                catch (Exception e)
+                {
+                    textOut.writeLineErr(e.Message);
+#if DEBUG
+                    textOut.writeErr(e.StackTrace + Environment.NewLine);
+#endif
+                }
             }
         }
     }
