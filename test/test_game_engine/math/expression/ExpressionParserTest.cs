@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using game_engine.math.expression;
 using NUnit.Framework;
 
@@ -15,6 +14,7 @@ namespace test_game_engine.math.expression
             parser = new ExpressionParser();
         }
 
+        // 'expectedResult' is in a functional-type notation to represent the AST for validation in these tests. 
         [TestCase("2", "2")]
         [TestCase("-2", "-(2)")]
         [TestCase("2 + 1", "+(2,1)")]
@@ -39,6 +39,8 @@ namespace test_game_engine.math.expression
             Assert.That(astString(parser.parseExpression(testExpression)), Is.EqualTo(expectedResult));
         }
 
+        // Rather than compare the expected and actual ASTs directly, just convert the actual AST to a non-ambiguous string notation
+        // and compare that to the expected string. 
         private static string astString(AstNode node)
         {
             if (node.args == null)
