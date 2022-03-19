@@ -11,5 +11,10 @@
         {
             this.numVal = value;
         }
+
+        public override string ToString()
+        {
+            return numVal.ToString();
+        }
     }
 }

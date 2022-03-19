@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace game_engine.game_objects
 {
@@ -26,6 +27,22 @@ namespace game_engine.game_objects
                     this.entities.Add(alias, entity);   
                 }
             }
+        }
+
+        public virtual Attribute findAttribute(string rootEntityKey, IList<string> keys)
+        {
+            if (keys.Count != 1)
+            {
+                throw new NotImplementedException("Multi-level attribute lookup not yet implemented");
+            }
+
+            Entity rootEntity = getEntity(rootEntityKey);
+            if (rootEntity == null)
+            {
+                return null;
+            }
+
+            return rootEntity.getAttribute(keys[0]);
         }
     }
 }
