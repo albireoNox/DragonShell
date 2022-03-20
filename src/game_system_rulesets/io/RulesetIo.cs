@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using common.io;
 using game_system_rulesets.objects;
 
 namespace game_system_rulesets.io
@@ -12,13 +13,13 @@ namespace game_system_rulesets.io
 
         public static Ruleset loadRuleset(string gameSystemId)
         {
-            DirectoryInfo curDir = new DirectoryInfo(Directory.GetCurrentDirectory());
-            DirectoryInfo rulesetRootDir = getSubdirectory(curDir, RULESET_DIR);
+            DirectoryInfo curDir = FileSystem.currentDirectory();
+            DirectoryInfo rulesetRootDir = curDir.getSubdirectory(RULESET_DIR);
 
             foreach (var rulesetDir in rulesetRootDir.GetDirectories())
             {
                 // Search for system file
-                FileInfo manifestFile = getFile(rulesetDir, RULESET_MANIFEST_NAME);
+                FileInfo manifestFile = rulesetDir.getFile(RULESET_MANIFEST_NAME);
 
                 RulesetInfo rulesetInfo = YamlFile.deserializeYamlFile<RulesetInfo>(manifestFile);
                 if (rulesetInfo.Id.Equals(gameSystemId))
@@ -30,39 +31,9 @@ namespace game_system_rulesets.io
             throw new IOException($"Could not find rule set for game system '{gameSystemId}'");
         }
 
-        private static DirectoryInfo getSubdirectory(DirectoryInfo dir, string subdirName)
-        {
-            var subdirs = dir.GetDirectories(subdirName);
-            if (subdirs.Length == 0)
-            {
-                throw new IOException($"Could not find directory '{subdirName}' in '{dir.FullName}'");
-            } 
-            else if (subdirs.Length > 1)
-            {
-                throw new IOException($"Ambiguous name '{subdirName}' in '{dir.FullName}'");
-            }
-
-            return subdirs[0];
-        }
-
-        private static FileInfo getFile(DirectoryInfo dir, string fileName)
-        {
-            var files = dir.GetFiles(fileName);
-            if (files.Length == 0)
-            {
-                throw new IOException($"Could not find file '{fileName}' in '{dir.FullName}'");
-            }
-            else if (files.Length > 1)
-            {
-                throw new IOException($"Ambiguous name '{fileName}' in '{dir.FullName}'");
-            }
-
-            return files[0];
-        }
-
         private static Ruleset buildRuleset(RulesetInfo info, DirectoryInfo root)
         {
-            DirectoryInfo entityDir = getSubdirectory(root, ENTITIES_DIR);
+            DirectoryInfo entityDir = root.getSubdirectory(ENTITIES_DIR);
 
             List<EntityType> entities = new List<EntityType>();
             foreach (var entityDefFile in entityDir.EnumerateFiles("*.yaml"))

@@ -22,7 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "game_system_rulesets", "src\game_system_rulesets\game_system_rulesets.csproj", "{F1E64E86-948A-4BB5-B6CC-217C9666A036}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo_application", "test\demo_application\demo_application.csproj", "{9CCA3AB1-EA52-42F7-BF83-A7E8850D62C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "demo_application", "test\demo_application\demo_application.csproj", "{9CCA3AB1-EA52-42F7-BF83-A7E8850D62C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "common", "src\common\common.csproj", "{67A7F019-E732-438B-B3AE-83F94EBB9EA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,10 @@ Global
 		{9CCA3AB1-EA52-42F7-BF83-A7E8850D62C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CCA3AB1-EA52-42F7-BF83-A7E8850D62C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CCA3AB1-EA52-42F7-BF83-A7E8850D62C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67A7F019-E732-438B-B3AE-83F94EBB9EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67A7F019-E732-438B-B3AE-83F94EBB9EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67A7F019-E732-438B-B3AE-83F94EBB9EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67A7F019-E732-438B-B3AE-83F94EBB9EA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{1D7BC474-378B-416F-8240-A98DA990CAAB} = {F24159BA-B457-4A1A-A3D1-1B0FB38AE2A2}
 		{F1E64E86-948A-4BB5-B6CC-217C9666A036} = {18DB1D35-9302-4ECA-8781-3811FC03CE79}
 		{9CCA3AB1-EA52-42F7-BF83-A7E8850D62C1} = {F24159BA-B457-4A1A-A3D1-1B0FB38AE2A2}
+		{67A7F019-E732-438B-B3AE-83F94EBB9EA0} = {18DB1D35-9302-4ECA-8781-3811FC03CE79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38722C14-8AD7-4B61-B0FA-CD20E48B429C}
