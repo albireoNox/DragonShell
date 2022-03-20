@@ -5,6 +5,7 @@
         public readonly string name;
         public readonly AttributeType type;
         public abstract double numVal { get; }
+        public abstract string stringVal { get; }
         public abstract object objVal { get; }
 
         protected Attribute(string name, AttributeType type)
@@ -15,7 +16,8 @@
 
         public enum AttributeType
         {
-            NUM, 
+            NUMBER, 
+            TEXT
         }
     }
 }
