@@ -1,0 +1,9 @@
+﻿<entity type="Character" id="test">
+  <baseAttribute id="NAME">Test Character</baseAttribute>
+  <baseAttribute id="STRENGTH">10</baseAttribute>
+  <baseAttribute id="DEXTERITY">12</baseAttribute>
+  <baseAttribute id="CONSTITUTION">12</baseAttribute>
+  <baseAttribute id="INTELLIGENCE">8</baseAttribute>
+  <baseAttribute id="WISDOM">10</baseAttribute>
+  <baseAttribute id="CHARISMA">14</baseAttribute>
+</entity>

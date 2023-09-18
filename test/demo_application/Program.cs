@@ -1,6 +1,5 @@
-﻿using System;
-using cli_application;
-using cli_application.app;
+﻿using cli_application.app;
+using common.io;
 
 namespace demo_application
 {
@@ -8,7 +7,9 @@ namespace demo_application
     {
         static void Main(string[] args)
         {
-            CliApp app = new CliApp();
+            var saveFile = FileSystem.currentDirectory().getSubdirectory("test_data").getFile("test_data.xml");
+
+            CliApp app = new CliApp(saveFile);
 
             app.main();
         }

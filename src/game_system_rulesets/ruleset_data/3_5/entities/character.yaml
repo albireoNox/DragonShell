@@ -1,47 +1,41 @@
 %YAML 1.2
 ---
 
-Name: Character
+Name: CHARACTER
 BaseAttributes:
+# ---------- PERSONAL DETAILS ---------
+    - 
+        Name: NAME
+        Type: text
+
+# ---------- STATS ---------
     - 
         Name: STRENGTH
-        Type: Number
-        Tags:
-            - Ability
-        Aliases:
-            - STR
+        Type: number
+        Tags: [ABILITY]
+        Aliases: [STR]
     - 
         Name: DEXTERITY
-        Type: Number
-        Tags:
-            - Ability
-        Aliases:
-            - DEX
+        Type: number
+        Tags: [ABILITY]
+        Aliases: [DEX]
     - 
         Name: CONSTITUTION
-        Type: Number
-        Tags:
-            - Ability
-        Aliases:
-            - CON
+        Type: number
+        Tags: [ABILITY]
+        Aliases: [CON]
     - 
         Name: INTELLIGENCE
-        Type: Number
-        Tags:
-            - Ability
-        Aliases:
-            - INT
+        Type: number
+        Tags: [ABILITY]
+        Aliases: [INT]
     - 
         Name: WISDOM
-        Type: Number
-        Tags:
-            - Ability
-        Aliases:
-            - WIS
+        Type: number
+        Tags: [ABILITY]
+        Aliases: [WIS]
     - 
         Name: CHARISMA
-        Type: Number
-        Tags:
-            - Ability
-        Aliases:
-            - CHA
+        Type: number
+        Tags: [ABILITY]
+        Aliases: [CHA]

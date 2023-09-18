@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using cli_application.cmd;
 using cli_application.io.text;
 using game_engine;
@@ -20,17 +21,34 @@ namespace cli_application.app
             Environment.Exit(0);
         }
 
-        public CliApp()
+        public CliApp(FileInfo saveFile=null)
         {
             this.textOut = new ConsoleOut();
-            this.game = Game.create(new Random());
             this.cmdMapper = CmdMapper.createWithMappings();
             this.cmdExecutor = new CmdExecutor(cmdMapper, textOut);
+            this.game = initGame(saveFile);
+        }
+
+        private Game initGame(FileInfo saveFile)
+        {
+            textOut.writeLine("Loading rule set 3.5e...");
+            Ruleset rs = RulesetIo.loadRuleset("3_5");
+            textOut.writeLine("Loading rule set 3.5e...");
+
+            if (saveFile == null)
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                // TODO
+            }
+
+            return Game.create(new Random());
         }
 
         public void main()
         {
-            Ruleset rs = RulesetIo.loadRuleset("3_5");
             textOut.writeLine("Welcome!", MsgType.DefaultEmphasis);
             while (true)
             {
